@@ -1,13 +1,5 @@
-//
-//  vector_add.hpp
-//  hcsecondtry.cpp
-//
-//  Created by Annegret Roeszler on 06.04.20.
-//  Copyright © 2020 Annegret Roeszler. All rights reserved.
-//
-
 /**
-* Header file implementing simple arithmetic vector operations vector
+* Header file implementing simple arithmetic vector operations
 * for std::vector<double> type.
 **/
 
@@ -44,7 +36,7 @@ Vec3D vec_add (const Vec3D& v1, const Vec3D& v2)
   return vec_sum;
 }
 
-Vec3D scalmultip (const Vec3D& v1, const double d1)
+Vec3D scalmultip (const Vec3D& v1, const double& d1)
 {
     assert( v1.size() == 3 );
     Vec3D vec_scal( v1.size() );
