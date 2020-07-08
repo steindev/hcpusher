@@ -42,7 +42,9 @@ Vec3D Pusher< HC >::operator ()(const Vec3D& u_vector_i, const Vec3D& E, const V
     // First half electric field acceleration
     Vec3D u_minus = vec_add(u_vector_i, scalmultip(E,(q*Dt)/(2.*m)));
 
+        //using namespace std;
         //cout << "u_minus = " << vec_print(u_minus) << endl;
+        //cout << "u_minus / c = " << vec_print(scalmultip( u_minus , 1./c )) << endl;
 
     // Auxiliary quantities
     double gamma_minus = sqrt(1. + (innerprod(u_minus, u_minus))/(pow(c,2.)));
@@ -87,9 +89,21 @@ Vec3D Pusher< HC >::operator ()(const Vec3D& u_vector_i, const Vec3D& E, const V
     Vec3D u_plus = scalmultip(vec_add( vec_add( u_minus , scalmultip( t_vector , innerprod( u_minus , t_vector))), crossprod(u_minus,t_vector)), s);
 
         //cout << "u_plus = " << vec_print(u_plus) << endl;
+        //cout << "u_plus / c = " << vec_print(scalmultip( u_plus , 1./c )) << endl;
 
     // Second half electric field acceleration
-    Vec3D u_ip1 = vec_add(vec_add(u_plus , scalmultip( E, ( q*Dt) / (2.*m) ) ), crossprod(u_plus,t_vector));
+    Vec3D u_prime1 = scalmultip( E, ( q*Dt) / (2.*m) );
+    Vec3D u_prime2 = crossprod(u_plus,t_vector);
+    Vec3D u_prime = vec_add( u_prime1 , u_prime2 );
+    
+        //cout << "u_primeE / c = " << vec_print(scalmultip( u_prime1 , 1./c )) << endl;
+        //cout << "u_primet / c = " << vec_print(scalmultip( u_prime2 , 1./c )) << endl;
+        //cout << "u_prime / c = " << vec_print(scalmultip( u_prime , 1./c )) << endl;
+    
+    Vec3D u_ip1 = vec_add( u_plus , u_prime );
+    
+        //cout << "u_new / c = " << vec_print(scalmultip( u_ip1 , 1./c )) << endl;
+        //cout << "==============================================================="<< endl;
     
     return u_ip1;
 }
@@ -104,8 +118,7 @@ struct Boris {};
 template < >
 Vec3D Pusher< Boris >::operator ()(const Vec3D& u_i, const Vec3D& E, const Vec3D& B)
 {
-    using namespace std;
-    
+        //using namespace std;
         //cout << "u_i = " << vec_print(u_i) << endl;
         //cout << "E = " << vec_print(E) << endl;
         //cout << "B = " << vec_print(B) << endl;
